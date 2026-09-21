@@ -77,8 +77,259 @@
 
         <!-- TAB 1: WhatsApp Direct Chat -->
         <div id="content-whatsapp" class="tool-content bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-2xl space-y-4">
-            <!-- Baaki ka content -->
+            <h2 class="text-lg font-semibold text-emerald-400 flex items-center gap-2">
+                <i class="fa-brands fa-whatsapp"></i> Direct WhatsApp Chat Without Saving Number
+            </h2>
+            <p class="text-xs text-slate-400">Enter phone number with country code (e.g., 923001234567) to start chatting instantly.</p>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Phone Number</label>
+                    <input type="tel" id="wa-phone" placeholder="923001234567" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Optional Message</label>
+                    <textarea id="wa-msg" rows="3" placeholder="Type your message here..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500"></textarea>
+                </div>
+                <button onclick="openWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-3 rounded-xl transition-colors shadow-lg shadow-emerald-900/30 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Open Chat Now
+                </button>
+            </div>
         </div>
+
+        <!-- TAB 2: QR Code Generator -->
+        <div id="content-qr" class="tool-content bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-2xl space-y-4 hidden">
+            <h2 class="text-lg font-semibold text-cyan-400 flex items-center gap-2">
+                <i class="fa-solid fa-qrcode"></i> QR Code Generator
+            </h2>
+            <p class="text-xs text-slate-400">Convert any text, URL, or contact info into a scannable QR code instantly.</p>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Text or URL</label>
+                    <input type="text" id="qr-input" placeholder="https://example.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500">
+                </div>
+                <button onclick="generateQR()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-medium py-3 rounded-xl transition-colors shadow-lg shadow-cyan-900/30 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate QR Code
+                </button>
+                <div id="qrcode-container" class="flex justify-center p-4 bg-slate-950 rounded-xl border border-slate-800 mt-4 min-h-[160px] items-center">
+                    <span class="text-xs text-slate-500">Your QR code will appear here</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Text Styler -->
+        <div id="content-text" class="tool-content bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-2xl space-y-4 hidden">
+            <h2 class="text-lg font-semibold text-indigo-400 flex items-center gap-2">
+                <i class="fa-solid fa-font"></i> Text Styler & Counter
+            </h2>
+            <div class="space-y-3">
+                <textarea id="text-input" oninput="processText()" rows="4" placeholder="Type or paste your text here..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500"></textarea>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <span class="block text-xs text-slate-400">Characters</span>
+                        <span id="char-count" class="text-lg font-bold text-indigo-400">0</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <span class="block text-xs text-slate-400">Words</span>
+                        <span id="word-count" class="text-lg font-bold text-indigo-400">0</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <span class="block text-xs text-slate-400">Sentences</span>
+                        <span id="sent-count" class="text-lg font-bold text-indigo-400">0</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <span class="block text-xs text-slate-400">Reading Time</span>
+                        <span id="read-time" class="text-lg font-bold text-indigo-400">0s</span>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 pt-2">
+                    <button onclick="transformText('upper')" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-2 rounded-lg transition-colors">UPPERCASE</button>
+                    <button onclick="transformText('lower')" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-2 rounded-lg transition-colors">lowercase</button>
+                    <button onclick="transformText('title')" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-2 rounded-lg transition-colors">Title Case</button>
+                    <button onclick="copyTextOutput()" class="bg-indigo-600 hover:bg-indigo-500 text-xs px-3 py-2 rounded-lg transition-colors ml-auto">Copy Text</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Password Generator -->
+        <div id="content-password" class="tool-content bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-2xl space-y-4 hidden">
+            <h2 class="text-lg font-semibold text-amber-400 flex items-center gap-2">
+                <i class="fa-solid fa-key"></i> Secure Password Generator
+            </h2>
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <input type="text" id="pass-output" readonly class="w-full bg-transparent text-sm text-amber-300 font-mono focus:outline-none">
+                    <button onclick="generatePassword()" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-medium transition-colors">Generate</button>
+                </div>
+                <div class="space-y-2 text-xs text-slate-300">
+                    <div class="flex justify-between">
+                        <span>Length: <strong id="pass-len-val">12</strong></span>
+                    </div>
+                    <input type="range" id="pass-length" min="6" max="32" value="12" oninput="document.getElementById('pass-len-val').innerText = this.value; generatePassword();" class="w-full accent-amber-500 bg-slate-950">
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: Counter / Stopwatch -->
+        <div id="content-counter" class="tool-content bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-2xl space-y-4 hidden">
+            <h2 class="text-lg font-semibold text-rose-400 flex items-center gap-2">
+                <i class="fa-solid fa-calculator"></i> Quick Counter & Timer
+            </h2>
+            <div class="text-center space-y-4 py-4">
+                <span id="counter-value" class="text-6xl font-black text-rose-400 block font-mono">0</span>
+                <div class="flex justify-center gap-3">
+                    <button onclick="updateCounter(-1)" class="bg-slate-800 hover:bg-slate-700 text-white w-12 h-12 rounded-xl text-xl font-bold transition-colors">-</button>
+                    <button onclick="resetCounter()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-medium transition-colors">Reset</button>
+                    <button onclick="updateCounter(1)" class="bg-rose-600 hover:bg-rose-500 text-white w-12 h-12 rounded-xl text-xl font-bold transition-colors">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: Base64 Encoder / Decoder -->
+        <div id="content-base64" class="tool-content bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-2xl space-y-4 hidden">
+            <h2 class="text-lg font-semibold text-teal-400 flex items-center gap-2">
+                <i class="fa-solid fa-code"></i> Base64 Encoder & Decoder
+            </h2>
+            <div class="space-y-3">
+                <textarea id="base64-input" rows="3" placeholder="Enter text to encode or decode..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-teal-500"></textarea>
+                <div class="flex gap-2">
+                    <button onclick="encodeBase64()" class="flex-1 bg-teal-600 hover:bg-teal-500 text-white py-2.5 rounded-xl text-xs font-medium transition-colors">Encode</button>
+                    <button onclick="decodeBase64()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white py-2.5 rounded-xl text-xs font-medium transition-colors">Decode</button>
+                </div>
+                <textarea id="base64-output" rows="3" readonly placeholder="Result will appear here..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-teal-300 font-mono focus:outline-none"></textarea>
+            </div>
+        </div>
+
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 mt-8 text-center text-xs text-slate-500 space-y-2">
+        <p>&copy; 2026 QuickHub Pro. All rights reserved.</p>
+        <p>Licensed under the <span class="text-slate-400 font-medium">MIT License</span>. Free to use, modify, and distribute.</p>
+    </footer>
+
+    <!-- Modals for Privacy Policy & Terms -->
+    <div id="privacyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white">Privacy Policy</h3>
+                <button onclick="closeModal('privacyModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="text-xs text-slate-300 space-y-2 max-h-60 overflow-y-auto pr-2">
+                <p>At QuickHub Pro, accessible from our web application, your privacy is extremely important to us.</p>
+                <p>We do not store any personal data, phone numbers, or text inputs entered into our utilities on any external servers. All operations happen locally in your browser.</p>
+                <p>We use Google AdSense to serve ads, which may use cookies to serve ads based on your prior visits to our website.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="termsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white">Terms & MIT License</h3>
+                <button onclick="closeModal('termsModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="text-xs text-slate-300 space-y-2 max-h-60 overflow-y-auto pr-2 font-mono">
+                <p class="font-bold text-white">MIT License</p>
+                <p>Copyright © 2026 QuickHub Pro</p>
+                <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files, to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Functions -->
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('[id^="tab-"]').forEach(el => {
+                el.className = "py-2.5 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1.5";
+            });
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+            const activeTab = document.getElementById('tab-' + tabId);
+            activeTab.className = "py-2.5 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all text-white shadow flex items-center justify-center gap-1.5 ";
+            
+            if(tabId === 'whatsapp') activeTab.classList.add('bg-emerald-600');
+            else if(tabId === 'qr') activeTab.classList.add('bg-cyan-600');
+            else if(tabId === 'text') activeTab.classList.add('bg-indigo-600');
+            else if(tabId === 'password') activeTab.classList.add('bg-amber-600');
+            else if(tabId === 'counter') activeTab.classList.add('bg-rose-600');
+            else if(tabId === 'base64') activeTab.classList.add('bg-teal-600');
+        }
+
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function openWhatsApp() {
+            const phone = document.getElementById('wa-phone').value.trim();
+            const msg = encodeURIComponent(document.getElementById('wa-msg').value);
+            if(!phone) { alert('Please enter a valid phone number'); return; }
+            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+        }
+
+        function generateQR() {
+            const container = document.getElementById('qrcode-container');
+            container.innerHTML = '';
+            const val = document.getElementById('qr-input').value.trim();
+            if(!val) { container.innerHTML = '<span class="text-xs text-rose-400">Please enter text or URL</span>'; return; }
+            new QRCode(container, { text: val, width: 150, height: 150 });
+        }
+
+        function processText() {
+            const txt = document.getElementById('text-input').value;
+            document.getElementById('char-count').innerText = txt.length;
+            document.getElementById('word-count').innerText = txt.trim() === '' ? 0 : txt.trim().split(/\s+/).length;
+            document.getElementById('sent-count').innerText = txt.split(/[.!?]+/).filter(Boolean).length;
+            document.getElementById('read-time').innerText = Math.ceil((txt.trim().split(/\s+/).length / 200) * 60) + 's';
+        }
+
+        function transformText(type) {
+            const el = document.getElementById('text-input');
+            if(type === 'upper') el.value = el.value.toUpperCase();
+            if(type === 'lower') el.value = el.value.toLowerCase();
+            if(type === 'title') el.value = el.value.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+            processText();
+        }
+
+        function copyTextOutput() {
+            const el = document.getElementById('text-input');
+            el.select();
+            navigator.clipboard.writeText(el.value);
+            alert('Text copied to clipboard!');
+        }
+
+        function generatePassword() {
+            const len = document.getElementById('pass-length').value;
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*!";
+            let pass = "";
+            for (let i = 0; i < len; i++) {
+                pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('pass-output').value = pass;
+        }
+        generatePassword();
+
+        let count = 0;
+        function updateCounter(val) {
+            count += val;
+            document.getElementById('counter-value').innerText = count;
+        }
+        function resetCounter() {
+            count = 0;
+            document.getElementById('counter-value').innerText = count;
+        }
+
+        function encodeBase64() {
+            try {
+                const val = document.getElementById('base64-input').value;
+                document.getElementById('base64-output').value = btoa(val);
+            } catch(e) { alert('Encoding error'); }
+        }
+
+        function decodeBase64() {
+            try {
+                const val = document.getElementById('base64-input').value;
+                document.getElementById('base64-output').value = atob(val);
+            } catch(e) { alert('Invalid Base64 string'); }
+        }
+    </script>
 </body>
 </html>
