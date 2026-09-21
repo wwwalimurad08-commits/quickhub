@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickHub Pro - All-In-One Instant Web Utilities</title>
     <!-- License: MIT License - Free to use, modify and monetize -->
+    
+    <!-- Google AdSense Verification Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7588260712207798"
+         crossorigin="anonymous"></script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- QR Code Library -->
@@ -34,7 +39,7 @@
             <!-- Google AdSense Ad Unit -->
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-client="ca-pub-7588260712207798"
                  data-ad-slot="YYYYYYYYYY"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
@@ -287,11 +292,19 @@
             document.getElementById('style-bubble').innerText = bubbleText;
         }
 
-        // Password Generator
+        // Copy Text Utility
+        function copyText(elementId) {
+            let text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied to clipboard!");
+            });
+        }
+
+        // Secure Password Generator
         function generatePassword() {
-            let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!";
+            let chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+";
             let pwd = "";
-            for(let i = 0; i < 12; i++) {
+            for (let i = 0; i < 12; i++) {
                 pwd += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             document.getElementById('pwd-output').value = pwd;
@@ -302,47 +315,41 @@
             let text = document.getElementById('counter-input').value;
             let chars = text.length;
             let words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
-            let readSec = Math.ceil(words / 3);
+            let readTime = Math.ceil(words / 3.3); // Approx 200 words per minute
+            
             document.getElementById('char-count').innerText = chars;
             document.getElementById('word-count').innerText = words;
-            document.getElementById('read-time').innerText = readSec + " sec";
+            document.getElementById('read-time').innerText = readTime + " sec";
         }
 
-        // Base64 Safe Encode/Decode (Supports Unicode/Special chars)
+        // Base64 Encoder / Decoder
         function encodeBase64() {
+            let val = document.getElementById('base64-input').value;
             try {
-                let val = document.getElementById('base64-input').value;
-                let encoded = btoa(encodeURIComponent(val).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-                    return String.fromCharCode('0x' + p1);
-                }));
-                document.getElementById('base64-input').value = encoded;
-            } catch(e) { alert("Encoding error!"); }
+                document.getElementById('base64-input').value = btoa(val);
+            } catch (e) {
+                alert("Encoding error!");
+            }
         }
+
         function decodeBase64() {
+            let val = document.getElementById('base64-input').value;
             try {
-                let val = document.getElementById('base64-input').value;
-                let decoded = decodeURIComponent(atob(val).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
-                document.getElementById('base64-input').value = decoded;
-            } catch(e) { alert("Invalid Base64 string!"); }
+                document.getElementById('base64-input').value = atob(val);
+            } catch (e) {
+                alert("Invalid Base64 string!");
+            }
         }
 
-        // Clipboard Copy Helper
-        function copyText(elementId) {
-            let text = document.getElementById(elementId).innerText || document.getElementById(elementId).value;
-            navigator.clipboard.writeText(text);
-            alert("Copied to clipboard!");
+        // Modal Controls
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.getElementById(modalId).classList.add('flex');
         }
 
-        // Modal Controllers
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
-
-        // Initializer
-        window.onload = function() {
-            generateQR();
-            generatePassword();
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('flex');
+            document.getElementById(modalId).classList.add('hidden');
         }
     </script>
 </body>
